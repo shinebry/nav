@@ -1,0 +1,3 @@
+const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
+const root=__dirname,types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.gif':'image/gif'};
+http.createServer((req,res)=>{const p=path.join(root,decodeURIComponent(req.url.split('?')[0]==='/'?'/index.html':req.url.split('?')[0]));if(!p.startsWith(root+path.sep)){res.writeHead(403);return res.end();}fs.readFile(p,(err,data)=>{res.writeHead(err?404:200,{'Content-Type':types[path.extname(p)]||'text/plain'});res.end(err?'Not found':data);});}).listen(process.env.PORT||3000,'0.0.0.0',()=>console.log('App running on port '+(process.env.PORT||3000)));
