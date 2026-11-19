@@ -1,10 +1,10 @@
 # A daily social mockup
 
-Run `npm run dev` and open port 3000. No dependencies or accounts are required. `npm run check` checks JavaScript syntax.
+Run `npm run dev` and open port 3000. Run `npm ci` first. No external accounts are needed for the UI prototype. `npm run check` checks JavaScript syntax.
 
 An intentionally finite chronological feed, source directory and filters, manual source imports, editable connection selections, saved/read views, and an inline editable profile card. Data and uploaded images stay in browser localStorage. Use browser site-data controls to reset the demo.
 
-All posts and identities are sample content. External links lead to the listed source websites. Discovery, public database lookups, reverse image search, and identity / YouTube Topic verification are interface demonstrations only; no social APIs or account authentication are implemented. Custom and legacy URLs can be saved manually. No automated identity matches are claimed.
+The initial social posts and contacts are sample content. [Public source profiles](docs/sources.md) add explicit Wikidata identity linking, Wikipedia biography/facts, YouTube channel RSS, MusicBrainz releases, Open Library works, referenced credits and evidence-backed curated recommendations. Sections refresh on click; identities are confirmed by the user rather than guessed. Broad social-feed ingestion, reverse image search and YouTube Topic verification remain unfinished. Custom and legacy URLs can be saved manually.
 
 Original local SVG illustrations keep demo media available without third-party image services. Google fonts are optional; system sans-serif is the fallback.
 
@@ -18,7 +18,7 @@ Typing uses BroadcastChannel between same-origin local participant views and exp
 
 Future account requirement: assign every user an immutable, globally unique user ID. Keep it independent of editable usernames and display names. Sources, messages, receipts, reactions, and author permissions must reference that ID. Existing `self` and `member-maya` identifiers are local fixtures, not production user identities.
 
-Settings persist username visibility and message timestamp precision (minutes, seconds, milliseconds). The Post composer above the sidebar profile stores text posts under the user's own source locally. GIF search currently uses four bundled animated GIFs without an external provider. Profile pronouns are unset by default and limited to he/him, she/her, and they/them.
+Settings persist username visibility and message timestamp precision (minutes, seconds, milliseconds). The Post composer button above Settings stores text posts under the user's own source locally. GIF search currently uses four bundled animated GIFs without an external provider. Profile pronouns are unset by default and limited to he/him, she/her, and they/them.
 
 
 Project-wide upload requirement: no application-imposed file type, file size, or attachment-count limits, in current or future upload features. Voice recordings have no artificial duration cap. Preserve arbitrary files without altering their bytes. The local prototype still depends on browser/device storage and memory; do not describe it as infinite capacity. Visual previews depend on browser format support and must not determine whether a file can be stored. Future backend infrastructure must support the same product requirement.
@@ -36,3 +36,48 @@ Tags: sources (including people) and categories can share reusable tags with arb
 Tag-count requirement: no application-imposed limit on the total number of tags or assignments per source/category. Preserve this in future storage and UI changes; actual capacity depends on available storage and infrastructure.
 
 Posting supports database-backed cultural items through Item: games, shows, films, books, albums, artists, songs, and other entities. See [catalog integration notes](docs/catalog.md) for providers, network requirements, tested behavior, and the unverified Thingsbook reference. Live lookups require the saved domain changes to be applied; the current instance denied these endpoints. Selected item metadata persists with local posts; there is no invented search fallback.
+
+
+Standalone messaging no longer uses Beeper Desktop. See [self-hosted Matrix and bridge setup](docs/matrix.md). The app runs on Windows, macOS, and Linux using Node.js and Docker Linux containers. Packaged bridges run beside a private Synapse server; see [platform availability](docs/platforms.md). `npm run setup:matrix` prepares the services and local account; `npm run personal` starts this app against them. Linking WhatsApp still requires your phone.
+
+Matrix has native room joining and encrypted direct chats. Slack and Steam have pinned standalone bridge installers: `npm run setup:bridges -- slack,steam`. Steam is a community connector. Local encryption and bot replies are verified; platform account login and external delivery remain unverified. See [platform setup and test details](docs/platforms.md).
+
+Microsoft Teams uses a pinned standalone community bridge (`npm run setup:bridges -- teams`). Email connects directly to IMAP/SMTP over TLS from Settings → Messaging → Platforms. See [connection details and verification](docs/platforms.md). `npm run verify:email` exercises an isolated local mail server without contacting real email recipients.
+
+Workspace tabs support named, colored groups and nested subgroups. Use the folder button beside New search to manage groups; use a tab's ellipsis or context menu to rename, recolor, or move it. Drag tabs onto groups. Parent selection prevents cycles; removing a group preserves its tabs and subgroups in the parent. Tab identity remains independent of names and groups, so opening the same view reuses its existing tab. Tabs, group hierarchy, and view state persist in `daily-workspace` localStorage.
+
+The bottom media dock stays mounted independently of workspace rendering. Its library imports arbitrary local files into IndexedDB, with Music, Show, Movie, and Other media categories; titles and categories can be edited. Supported audio/video plays locally with seek, volume, previous/next, and video preview/fullscreen controls. Importing does not start playback, playback stops at the end unless looping is explicitly enabled, and navigation does not interrupt it. Files have no application type/size/count cap, but device storage, memory, and browser codecs still apply. Unsupported files remain available to download. This is a browser player with optional local file imports. HTTP add-on streaming, database metadata, and Saved organization are described in [media search and Saved](docs/media-library.md); Jellyfin server connectivity and transcoding are not implemented.
+
+Validated: nested groups and cycle prevention, group removal without losing tabs, duplicate-tab reuse, reload persistence, real audio playback across navigation, seeking/pause, arbitrary file storage, and desktop/mobile layout. Browser fixtures are kept out of the default library.
+
+The player timeline has zoom-in/out controls and one scrubber that follows the playhead within the zoomed time window. Zooming does not change playback position; seeking remains explicit. The workspace scrolls in its own viewport with a fixed 24px gap above the media dock, plus inner spacing beside scrollbars. Tab scroll positions use that workspace viewport and survive switching views. Timeline zoom and clearance on mobile are covered by browser checks.
+
+Tab groups and nested groups now render inline in one horizontal strip, with chip-click collapse and the existing group editor. The player shares the pitch-black background. Timeline zoom displays `− 100% +`; clicking the percentage resets both zoom and pan to the full timeline without moving playback.
+
+The current media icon, title, and artist stay beside the bottom-left profile area. Artist is editable in Library → Edit and persists with the local media record; missing artist metadata is left blank rather than invented.
+
+The player loop button toggles repetition. Right-click it (or press Shift+F10/Arrow Down while focused) to select Off, 1/2/3/5/10 repeats, a custom positive integer, or indefinite repetition. Counts mean additional plays after the initial play. New media selection resets the repeat budget; pausing does not. Looping starts disabled on reload and never advances to another item. Browser checks verify exact finite counts, indefinite looping and disabling, integer validation, keyboard access, and mobile menu bounds.
+
+Media features: Lyrics is available for music/audio and imports plain TXT or timed LRC locally; timed lines follow playback. Subtitles is available for video, supports local SRT/VTT imports persisted with the media, and lets you select imported or browser-exposed embedded caption tracks or turn captions off. Imported captions render through native VTTCue/TextTrack support and remain off until selected. Audio tracks is enabled only when the browser exposes at least two native AudioTracks; it selects the actual track rather than inventing alternatives. Browser/container support varies; it is disabled otherwise. All three controls stay visible and gray when inapplicable.
+
+Custom whole-number entry is available for playback position (click elapsed time or right-click the scrubber), volume (right-click the volume slider or mute button), zoom (right-click the percentage), and repeat count (right-click Loop). Clicking the zoom percentage still resets to 100%. Position and volume retain their inherent media-duration and 0–100% bounds; zoom starts at 100%. Calculated duration and track labels remain metadata. Lyrics/subtitle parsing, native rendering, persistence, custom entries, and mobile control bounds passed browser checks.
+
+Player options (ellipsis) now contain playback speed (presets and custom whole-number percentages), A–B section looping, manual queue controls, chapters, lyric/subtitle timing offsets, picture-in-picture, and a shortcut reference. Speed is applied through the browser's actual playbackRate API; unsupported rates are rejected. A–B markers accept seconds and validate order/duration, take priority over whole-item looping, and reset when changing media.
+
+Queue entries are added explicitly from the library and can be played, reordered, or removed. Previous/Next follow queue order when playing a queued entry. Queue IDs persist locally; reaching the end of a track still stops unless repetition was explicitly enabled. The queue does not introduce automatic next-item playback.
+
+Playback position is saved per item, including on pause and seek. Reload restores the last media and position paused, without autoplay. Chapters use browser-exposed chapter cues when available, with local chapter WebVTT import as an additional source; no chapters are invented for files without metadata. Timing offsets are signed integer milliseconds, saved with the item: positive values delay lyrics/subtitles and negative values advance them. Imported subtitle cues are rebuilt when offsets change.
+
+Picture-in-picture uses the browser's native video API and is disabled when unavailable. Space/K toggles playback, Left/Right seeks five seconds, Up/Down adjusts volume by five percent, M mutes, and F toggles video fullscreen. Shortcuts leave text fields, buttons, tabs, dialogs, and modified key combinations alone. Browser verification covered real A–B repeats, custom speed, queue reorder/play/persistence, paused reload resume, chapter seek, native PiP, timing offsets, safe shortcuts, and mobile layout.
+
+Subtitle appearance is available in Player options for video: font size, font family, text/background colors, background opacity, and vertical position, with a live preview and reset. Preferences persist locally and apply to native caption cues, including fullscreen playback.
+
+Audio controls use Web Audio on explicit Apply: three-band EQ (bass/mid/treble, −24 to +24 dB), stereo balance (−100 to +100), and optional volume leveling through a dynamics compressor. Leveling is dynamic compression, not measured LUFS/loudness normalization. Neutral settings are the default; saved settings resume when playback is explicitly started. Reset returns neutral processing. Microphone and call processing are separate.
+
+Media details show real file size/type, duration, decoded resolution, average whole-file bitrate, exposed audio/subtitle/chapter counts, and codec/sample data when recognized. Local inspection supports WAVE fmt metadata, FLAC stream information, Ogg Opus/Vorbis headers, WebM track codec IDs, and MP4 sample-description codec IDs (including a tail moov box). Inspection reads bounded metadata regions and skips media payloads; unknown or out-of-range metadata stays unavailable rather than being guessed. No local media is uploaded for inspection. Browser tests verify caption appearance/position persistence, actual EQ frequency response/stereo panning/compressor activation/reset/playback, PCM file details, and mobile form layout.
+
+The Search view searches connected HTTP add-ons and public databases; the main search bar in Saved searches Saved or the current collection. Saved is the media library, with collections and movie/show/music organization. Add-ons, local imports, metadata/artwork, cast, and soundtrack preview/save controls are documented in [media search and Saved](docs/media-library.md). No Stremio application is embedded.
+
+Torrent and converted video playback are provided by the standalone [WebTorrent/FFmpeg engine](docs/playback-engine.md). Use `npm run verify:engine` to run the owned local torrent/conversion integration check. FFmpeg and ffprobe must be installed on the server machine or configured via their environment paths.
+
+Sources now ingest public feeds and supported provider catalogs, with public identity discovery, duplicate stacks, read/Saved state, cached failure recovery, evidence links and on-demand public audio playback. Provider credentials are configured through Manage; unsupported/private social platforms remain profile links. See [Sources](docs/sources.md) for support, setup and verification limits.

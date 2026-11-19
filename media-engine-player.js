@@ -1,0 +1,6 @@
+(() => {
+ let hls=null,cancelPending=null;
+ function detach(){cancelPending?.();cancelPending=null;if(hls){hls.destroy();hls=null}}
+ async function attach(media,url,mode,onError){detach();if(mode!=='hls'){media.src=url;media.load();return}if(!window.Hls?.isSupported()&&media.canPlayType('application/vnd.apple.mpegurl')){media.src=url;media.load();return}if(!window.Hls?.isSupported())throw Error('This browser does not support converted video playback');await new Promise((resolve,reject)=>{const instance=new Hls({enableWorker:true,backBufferLength:30,maxBufferLength:24});hls=instance;const timer=setTimeout(()=>{cancelPending=null;reject(Error('Timed out preparing converted playback'))},60000);cancelPending=()=>{clearTimeout(timer);reject(Error('Playback changed'))};instance.on(Hls.Events.MANIFEST_PARSED,()=>{clearTimeout(timer);cancelPending=null;resolve()});instance.on(Hls.Events.ERROR,(_,data)=>{if(!data.fatal||instance!==hls)return;clearTimeout(timer);cancelPending=null;const error=Error('Converted playback failed. Check the source and playback engine.');onError?.(error.message);reject(error)});instance.loadSource(url);instance.attachMedia(media)})}
+ window.EnginePlayback={attach,detach};
+})();

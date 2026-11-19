@@ -1,0 +1,30 @@
+name: nav-personal
+services:
+  synapse:
+    image: ghcr.io/element-hq/synapse@sha256:c6b5dba477c41b22167e771174456364b7c9c83a4cb2d5d7ee1e530334c5cd06
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    restart: unless-stopped
+    environment:
+      NO_PROXY: localhost,127.0.0.1,synapse,whatsapp
+      no_proxy: localhost,127.0.0.1,synapse,whatsapp
+    ports:
+      - "127.0.0.1:8008:8008"
+    volumes:
+      - ./.local/synapse:/data
+      - ./.local/whatsapp/registration.yaml:/data/whatsapp-registration.yaml:ro
+  whatsapp:
+    image: ghcr.io/element-hq/synapse@sha256:c6b5dba477c41b22167e771174456364b7c9c83a4cb2d5d7ee1e530334c5cd06
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    restart: unless-stopped
+    environment:
+      NO_PROXY: localhost,127.0.0.1,synapse,whatsapp
+      no_proxy: localhost,127.0.0.1,synapse,whatsapp
+    healthcheck:
+      disable: true
+    working_dir: /data
+    entrypoint: ["/bridge/mautrix-whatsapp"]
+    command: ["--config", "/data/config.yaml", "--no-update"]
+    depends_on: [synapse]
+    volumes:
+      - ./.local/bin/mautrix-whatsapp:/bridge/mautrix-whatsapp:ro
+      - ./.local/whatsapp:/data

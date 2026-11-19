@@ -1,0 +1,259 @@
+[
+  {
+    "id": "matrix",
+    "name": "Matrix",
+    "status": "native",
+    "url": "https://spec.matrix.org/latest/client-server-api/",
+    "reason": "Direct Matrix connection; no bridge required."
+  },
+  {
+    "id": "slack",
+    "name": "Slack",
+    "status": "packaged",
+    "repo": "mautrix/slack",
+    "version": "v0.2611.0",
+    "binary": "mautrix-slack",
+    "checksum": "infra/mautrix-slack.sha256",
+    "bot": "slackbot",
+    "prefix": "!slack",
+    "auth": "Follow the bridge bot login flow for your Slack workspace"
+  },
+  {
+    "id": "steam",
+    "name": "Steam",
+    "status": "experimental",
+    "repo": "jasonlaguidice/matrix-steam-bridge",
+    "version": "a3938326350dbe488724f979033d71a01e4ab1a3",
+    "image": "ghcr.io/jasonlaguidice/matrix-steam-bridge@sha256:878680bac1a7bea304b3bc82ab76bff586150391fef3e97924184613f4f3b50d",
+    "entrypoint": "/app/steam",
+    "bot": "steambot",
+    "prefix": "!steam",
+    "loginCommand": "login qr",
+    "reason": "Community connector. External account login and delivery remain unverified.",
+    "url": "https://github.com/jasonlaguidice/matrix-steam-bridge",
+    "auth": "Scan the bridge QR with the Steam mobile app, or use the bot password login flow"
+  },
+  {
+    "id": "whatsapp",
+    "name": "WhatsApp",
+    "status": "packaged",
+    "repo": "mautrix/whatsapp",
+    "version": "v0.2611.0",
+    "binary": "mautrix-whatsapp",
+    "checksum": "infra/mautrix-whatsapp.sha256",
+    "bot": "whatsappbot",
+    "prefix": "!wa",
+    "auth": "Linked-device QR from your phone"
+  },
+  {
+    "id": "discord",
+    "name": "Discord",
+    "status": "packaged",
+    "repo": "mautrix/discord",
+    "version": "v0.7.7",
+    "binary": "mautrix-discord",
+    "checksum": "infra/mautrix-discord.sha256",
+    "bot": "discordbot",
+    "prefix": "!discord",
+    "auth": "Follow the bridge bot's account login instructions",
+    "configTemplate": {
+      "url": "https://raw.githubusercontent.com/mautrix/discord/v0.7.7/example-config.yaml",
+      "sha256": "a17c8ae8ce8dcbaa62e93cb4a02e3dc614dcb35e7148296a8376aa2495eaf824"
+    }
+  },
+  {
+    "id": "instagram",
+    "name": "Instagram",
+    "status": "packaged",
+    "repo": "mautrix/meta",
+    "version": "v0.2611.0",
+    "binary": "mautrix-instagram",
+    "checksum": "infra/mautrix-meta.sha256",
+    "bot": "instagrambot",
+    "prefix": "!ig",
+    "auth": "Follow the Instagram bridge bot login flow"
+  },
+  {
+    "id": "messenger",
+    "name": "Facebook Messenger",
+    "status": "packaged",
+    "repo": "mautrix/meta",
+    "version": "v0.2611.0",
+    "binary": "mautrix-meta",
+    "checksum": "infra/mautrix-meta.sha256",
+    "bot": "messengerbot",
+    "prefix": "!fb",
+    "auth": "Follow the Messenger bridge bot login flow"
+  },
+  {
+    "id": "bluesky",
+    "name": "Bluesky",
+    "status": "packaged",
+    "repo": "mautrix/bluesky",
+    "version": "v0.2510.0",
+    "binary": "mautrix-bluesky",
+    "checksum": "infra/mautrix-bluesky.sha256",
+    "bot": "blueskybot",
+    "prefix": "!bsky",
+    "auth": "Bluesky account login through the bridge bot"
+  },
+  {
+    "id": "x",
+    "name": "X",
+    "status": "packaged",
+    "repo": "mautrix/twitter",
+    "version": "v0.2609.0",
+    "binary": "mautrix-twitter",
+    "checksum": "infra/mautrix-twitter.sha256",
+    "bot": "twitterbot",
+    "prefix": "!twitter",
+    "auth": "Follow the bridge bot's session login flow"
+  },
+  {
+    "id": "telegram",
+    "name": "Telegram",
+    "status": "packaged",
+    "repo": "mautrix/telegram",
+    "version": "v0.2611.0",
+    "binary": "mautrix-telegram",
+    "checksum": "infra/mautrix-telegram.sha256",
+    "bot": "telegrambot",
+    "prefix": "!tg",
+    "auth": "Telegram API credentials may be required; then follow the bot login flow"
+  },
+  {
+    "id": "signal",
+    "name": "Signal",
+    "status": "packaged",
+    "repo": "mautrix/signal",
+    "version": "v0.2611.0",
+    "binary": "mautrix-signal",
+    "checksum": "infra/mautrix-signal.sha256",
+    "bot": "signalbot",
+    "prefix": "!signal",
+    "auth": "Link as a secondary device using your phone"
+  },
+  {
+    "id": "googlemessages",
+    "name": "Google Messages",
+    "status": "packaged",
+    "repo": "mautrix/gmessages",
+    "version": "v0.2611.0",
+    "binary": "mautrix-gmessages",
+    "checksum": "infra/mautrix-gmessages.sha256",
+    "bot": "gmessagesbot",
+    "prefix": "!gm",
+    "auth": "Phone pairing through the Google Messages bridge"
+  },
+  {
+    "id": "googlevoice",
+    "name": "Google Voice",
+    "status": "packaged",
+    "repo": "mautrix/gvoice",
+    "version": "v0.2611.0",
+    "binary": "mautrix-gvoice",
+    "checksum": "infra/mautrix-gvoice.sha256",
+    "bot": "gvoicebot",
+    "prefix": "!gv",
+    "auth": "Follow the Google Voice bridge bot login flow"
+  },
+  {
+    "id": "linkedin",
+    "name": "LinkedIn",
+    "status": "packaged",
+    "repo": "mautrix/linkedin",
+    "version": "v0.2611.0",
+    "binary": "mautrix-linkedin",
+    "checksum": "infra/mautrix-linkedin.sha256",
+    "bot": "linkedinbot",
+    "prefix": "!li",
+    "auth": "Follow the LinkedIn bridge bot login flow"
+  },
+  {
+    "id": "applemessages",
+    "name": "Apple Messages",
+    "status": "external",
+    "repo": "mautrix/imessage",
+    "bot": "imessagebot",
+    "prefix": "!im",
+    "reason": "Requires a Mac relay. The app can run on Windows, Linux, or macOS.",
+    "url": "https://docs.mau.fi/bridges/go/imessage/mac/setup.html"
+  },
+  {
+    "id": "googlechat",
+    "name": "Google Chat",
+    "status": "external",
+    "repo": "mautrix/googlechat",
+    "bot": "googlechatbot",
+    "prefix": "!gc",
+    "reason": "Separate Python bridge setup required.",
+    "url": "https://docs.mau.fi/bridges/python/googlechat/index.html"
+  },
+  {
+    "id": "line",
+    "name": "LINE",
+    "status": "external",
+    "repo": "beeper/line",
+    "bot": "linebot",
+    "prefix": "!line",
+    "reason": "Standalone self-hosting is documented upstream; requires a source build.",
+    "url": "https://github.com/beeper/line#self-hosted-matrix-server-docker"
+  },
+  {
+    "id": "reddit",
+    "name": "Reddit",
+    "status": "experimental",
+    "repo": "ricardo-duarte-av/matrix-redditchat-bridge",
+    "bot": "redditchatbot",
+    "prefix": "!reddit",
+    "reason": "Community bridge; not installed or verified here.",
+    "url": "https://github.com/ricardo-duarte-av/matrix-redditchat-bridge"
+  },
+  {
+    "id": "tiktok",
+    "name": "TikTok",
+    "status": "experimental",
+    "repo": "httpjamesm/matrix-tiktok",
+    "reason": "Community bridge. Standalone local setup is being verified; platform login remains unverified.",
+    "url": "https://github.com/httpjamesm/matrix-tiktok",
+    "image": "ghcr.io/httpjamesm/matrix-tiktok@sha256:7dbfff6b6ac34d8c721b9c13c75bf4d3f6901f15d3e7fe96b85d51bc51a71009",
+    "entrypoint": "/usr/local/bin/matrix-tiktok",
+    "version": "v1.1.0",
+    "bot": "tiktokbot",
+    "prefix": "!tt"
+  },
+  {
+    "id": "threads",
+    "name": "Threads",
+    "status": "unavailable",
+    "reason": "No maintained standalone messaging bridge verified."
+  },
+  {
+    "id": "teams",
+    "name": "Microsoft Teams",
+    "status": "packaged",
+    "community": true,
+    "repo": "YourSandwich/mautrix-teams",
+    "version": "v32.0",
+    "binary": "mautrix-teams",
+    "checksum": "infra/mautrix-teams.sha256",
+    "artifact": "mautrix-teams-{version}-linux-{arch}.tar.gz",
+    "archiveEntry": "mautrix-teams-{version}-linux-{arch}/mautrix-teams",
+    "binarySha256": {
+      "amd64": "b14a49b8cbd5df686ca9539d5af3a9c4bd7340392f2019209335aa0dfa68286f",
+      "arm64": "d8656c3a3a65c54b82fba2371e2e296c61e02902a52ca7da1d5b816617cd74c3"
+    },
+    "bot": "teamsbot",
+    "prefix": "!teams",
+    "reason": "Community connector. Work/school and personal login flows; external login and delivery remain unverified.",
+    "auth": "Choose Work or school or Personal in the bot login flow",
+    "url": "https://github.com/YourSandwich/mautrix-teams",
+    "runtimeImage": "ghcr.io/jasonlaguidice/matrix-steam-bridge@sha256:878680bac1a7bea304b3bc82ab76bff586150391fef3e97924184613f4f3b50d"
+  },
+  {
+    "id": "email",
+    "name": "Email",
+    "status": "email",
+    "reason": "Direct IMAP and SMTP connection over TLS."
+  }
+]

@@ -1,1 +1,45 @@
-{"name":"daily-social-mockup","version":"0.1.0","private":true,"scripts":{"dev":"node server.js","start":"node server.js","check":"node --check app.js && node --check server.js && node --check catalog.js"}}
+{
+  "name": "daily-social-mockup",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "personal": "node --env-file=.env server.js",
+    "check": "node --check app.js && node --check server.js && node --check catalog.js && node --check matrix.js && node --check bridge-registry.js && node --check scripts/setup-matrix.js && node --check scripts/setup-bridges.js && node --check local-access.js && node --check scripts/verify-matrix.js && node --check scripts/services.js && node --check matrix-native.js && node --check scripts/verify-messaging.js && node --check email.js && node --check scripts/verify-email.js && node --check tab-tree.js && node --check media-player.js && node --check media-text.js && node --check audio-processing.js && node --check media-inspect.js && node --check media-providers.js && node --check media-library-ui.js && node --check saved-folder-tree.js && node --check media-library-model.js && node --check media-engine.js && node --check media-engine-player.js && node --check scripts/verify-media-engine.js && node --check source-data.js && node --check source-profile-ui.js && node --check source-http.js && node --check source-model.js && node --check source-connectors.js && node --check source-service.js && node --check source-feeds-ui.js && node --check test/fixtures/source-network.cjs && node --check backup-model.js && node --check backup-ui.js && node --check source-identity.js && node --check scripts/verify-sources-live.js && node --check scripts/verify-source-essential-desktop.cjs && node --check source-item-model.js && node --check scripts/verify-source-search-desktop.cjs",
+    "test": "node --test test/*.test.js",
+    "setup:matrix": "node scripts/setup-matrix.js",
+    "verify:matrix": "node --env-file=.env scripts/verify-matrix.js",
+    "setup:bridges": "node scripts/setup-bridges.js",
+    "services:start": "node scripts/services.js start",
+    "services:stop": "node scripts/services.js stop",
+    "services:status": "node scripts/services.js status",
+    "verify:messaging": "node --env-file=.env scripts/verify-messaging.js",
+    "verify:email": "node scripts/verify-email.js",
+    "verify:library:fixture": "node test/fixtures/media-platform.cjs",
+    "verify:engine": "node scripts/verify-media-engine.js",
+    "verify:engine:fixture": "node test/fixtures/playback-engine.cjs",
+    "verify:sources:fixture": "PORT=3004 node -r ./test/fixtures/source-network.cjs server.js",
+    "verify:sources:live": "node scripts/verify-sources-live.js"
+  },
+  "dependencies": {
+    "cheerio": "1.2.0",
+    "fast-xml-parser": "5.5.8",
+    "hls.js": "1.7.4",
+    "imapflow": "2.12.1",
+    "mailparser": "3.14.5",
+    "matrix-bot-sdk": "0.8.0",
+    "nodemailer": "10.6.0",
+    "tar": "7.5.23",
+    "undici": "8.12.4",
+    "webtorrent": "3.0.21",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "express": "5.3.0",
+    "stremio-addon-sdk": "1.6.10"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}

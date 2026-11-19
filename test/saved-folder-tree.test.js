@@ -1,0 +1,6 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const {ancestry,canMove,inside}=require('../saved-folder-tree');
+test('saved folders support deep ancestry without recursive traversal or a depth cap',()=>{const parents=new Map();for(let i=0;i<12000;i++)parents.set('folder-'+i,i?'folder-'+(i-1):null);const path=ancestry(parents,'folder-11999');assert.equal(path.length,12000);assert.equal(path[0],'folder-0');assert.equal(path.at(-1),'folder-11999');assert(inside(parents,'folder-11999','folder-0'));assert(!canMove(parents,'folder-0','folder-11999'));assert(canMove(parents,'folder-11999',null))});
+test('moving saved folders preserves descendants and prevents self/descendant cycles',()=>{const parents=new Map([['Music',null],['Albums','Music'],['Favorites','Albums'],['Films',null]]);assert(!canMove(parents,'Music','Music'));assert(!canMove(parents,'Music','Favorites'));assert(canMove(parents,'Albums','Films'));parents.set('Albums','Films');assert.deepEqual(ancestry(parents,'Favorites'),['Films','Albums','Favorites']);assert(!inside(parents,'Favorites','Music'));assert(inside(parents,'Favorites','Films'))});
+test('corrupt saved folder cycles terminate safely',()=>{const parents=new Map([['A','B'],['B','A']]);assert.equal(ancestry(parents,'A').length,2);assert(!canMove(parents,'C','A'))});
